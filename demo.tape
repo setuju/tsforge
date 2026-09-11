@@ -1,20 +1,10 @@
 # ============================================================
-#  demo.tape — VHS demo for tsforge
+#  demo.tape — VHS demo for tsforge (CI-safe)
 #  Author  : Jack
 #  GitHub  : https://github.com/setuju
 #  Website : https://saturumah.net
-#
-#  Generate the GIF:
-#    vhs demo.tape
-#
-#  Prerequisites:
-#    brew install vhs ttyd ffmpeg
-#    # or: nix-shell (uses the shell.nix in this repo)
 # ============================================================
 
-# ---------------------------------------------------------------------------
-# Output settings
-# ---------------------------------------------------------------------------
 Output demo.gif
 Set Shell "bash"
 Set FontFamily "JetBrains Mono, Fira Code, DejaVu Sans Mono, monospace"
@@ -25,26 +15,37 @@ Set Padding 20
 Set Theme "Dracula"
 Set TypingSpeed 50ms
 Set Framerate 30
-Set PlaybackSpeed 1.0
 Set CursorBlink false
 
 # ---------------------------------------------------------------------------
-# Scene 1: Intro — show the problem
+# Scene 1: Show the problem — using a temporary project
 # ---------------------------------------------------------------------------
+Type "# Create a temporary TypeScript project"
+Enter
+Sleep 300ms
+
+Type "mkdir -p /tmp/demo && cd /tmp/demo"
+Enter
+Sleep 300ms
+
+Type "printf '{\"compilerOptions\":{\"strict\":true,\"noEmit\":true}}' > tsconfig.json"
+Enter
+Sleep 300ms
+
+Type "echo 'export const hello: string = \"world\";' > index.ts"
+Enter
+Sleep 300ms
+
 Type "# The problem: npx tsc --noEmit feels slow"
 Enter
 Sleep 500ms
-
-Type "cd /home/jack/saturumah/SHALA-V"
-Enter
-Sleep 300ms
 
 Type "time npx tsc --noEmit"
 Enter
 Sleep 2s
 
 # ---------------------------------------------------------------------------
-# Scene 2: Load tsforge
+# Scene 2: Load tsforge from the repository
 # ---------------------------------------------------------------------------
 Hide
 Type "clear"
@@ -55,11 +56,11 @@ Type "# The solution: tsforge"
 Enter
 Sleep 500ms
 
-Type "source ~/tsforge.sh"
+Type "source ./tsforge.sh"
 Enter
 Sleep 500ms
 
-Type "tsc-help | head -20"
+Type "tsforge-help | head -15"
 Enter
 Sleep 2s
 
@@ -112,7 +113,7 @@ Enter
 Sleep 3s
 
 # ---------------------------------------------------------------------------
-# Scene 7: Native compiler (tsgo)
+# Scene 7: Native compiler
 # ---------------------------------------------------------------------------
 Hide
 Type "clear"
@@ -139,5 +140,4 @@ Type "# https://github.com/setuju/tsforge"
 Enter
 Sleep 2s
 
-# Done
 Sleep 1s
