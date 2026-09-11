@@ -3,41 +3,26 @@
 #  Author  : Jack
 #  GitHub  : https://github.com/setuju
 #  Website : https://saturumah.net
-#
-#  Force LF line endings for shell scripts and config files.
-#  Prevents CRLF (Windows) from leaking into the repo and
-#  breaking ShellCheck / Bash on Linux and macOS.
 # ============================================================
 
-# Default: normalize all text files to LF in the repo
 * text=auto eol=lf
 
-# Shell scripts — always LF
 *.sh          text eol=lf
 *.bash        text eol=lf
 *.zsh         text eol=lf
-
-# ShellCheck / EditorConfig — always LF
 .shellcheckrc text eol=lf
 .editorconfig text eol=lf
-
-# Build / CI configs — always LF
 Makefile      text eol=lf
 Dockerfile    text eol=lf
 *.yml         text eol=lf
 *.yaml        text eol=lf
 *.nix         text eol=lf
 *.tape        text eol=lf
-
-# Git internals — always LF
 .gitignore    text eol=lf
 .gitattributes text eol=lf
 CODEOWNERS    text eol=lf
-
-# Markdown — LF
 *.md          text eol=lf
 
-# Binary assets — do not touch
 *.gif         binary
 *.png         binary
 *.jpg         binary
