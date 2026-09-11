@@ -25,7 +25,7 @@
 #  Installation:
 #    curl -fsSL https://raw.githubusercontent.com/setuju/tsforge/main/tsforge.sh \
 #      -o ~/tsforge.sh
-#    echo '[[ -f "$HOME/tsforge.sh" ]] && source "$HOME/tsforge.sh"' >> ~/.bashrc
+#    echo '[ -f "$HOME/tsforge.sh" ] && source "$HOME/tsforge.sh"' >> ~/.bashrc
 #    source ~/.bashrc
 #
 #  Usage:
@@ -40,13 +40,13 @@
 # ---------------------------------------------------------------------------
 # Guard: prevent double-sourcing
 # ---------------------------------------------------------------------------
-[[ -n "${_TSFORGE_LOADED:-}" ]] && return 0
+[ -n "${_TSFORGE_LOADED:-}" ] && return 0
 _TSFORGE_LOADED=1
 
 # ---------------------------------------------------------------------------
 # Colors (auto-disabled when output is not a TTY)
 # ---------------------------------------------------------------------------
-if [[ -t 1 ]]; then
+if [ -t 1 ]; then
   _TF_RESET=$'\033[0m'
   _TF_RED=$'\033[31m'
   _TF_GREEN=$'\033[32m'
@@ -68,8 +68,8 @@ fi
 # This makes every command work from any subdirectory of a project.
 _tsf_find_local_bin() {
   local name="$1" dir="$PWD"
-  while [[ "$dir" != "/" ]] && [[ -n "$dir" ]]; do
-    if [[ -x "$dir/node_modules/.bin/$name" ]]; then
+  while [ "$dir" != "/" ] && [ -n "$dir" ]; do
+    if [ -x "$dir/node_modules/.bin/$name" ]; then
       printf '%s\n' "$dir/node_modules/.bin/$name"
       return 0
     fi
@@ -81,8 +81,8 @@ _tsf_find_local_bin() {
 # Find the nearest tsconfig.json walking up from $PWD
 _tsf_find_tsconfig() {
   local dir="$PWD"
-  while [[ "$dir" != "/" ]] && [[ -n "$dir" ]]; do
-    if [[ -f "$dir/tsconfig.json" ]]; then
+  while [ "$dir" != "/" ] && [ -n "$dir" ]; do
+    if [ -f "$dir/tsconfig.json" ]; then
       printf '%s\n' "$dir/tsconfig.json"
       return 0
     fi
@@ -243,7 +243,7 @@ tsc-where() {
     _tsf_fail "tsconfig.json not found"
   fi
 
-  if [[ -f "$PWD/package.json" ]]; then
+  if [ -f "$PWD/package.json" ]; then
     printf '%s  📦 package.json: %s%s\n' "$_TF_CYAN" "$PWD/package.json" "$_TF_RESET"
   fi
 }
@@ -289,7 +289,7 @@ tsc-optimize() {
     _tsf_ok "composite: true (project references enabled)"
   fi
 
-  if [[ "$issues" -gt 0 ]]; then
+  if [ "$issues" -gt 0 ]; then
     printf '\n%sSuggested fixes for %s:%s\n' "$_TF_YELLOW" "$cfg" "$_TF_RESET"
     printf '  Add inside "compilerOptions":\n'
     printf '    "incremental": true,\n'
@@ -307,22 +307,22 @@ tsc-clean() {
   local removed=0
 
   # Default location (Node 18+)
-  if [[ -f "$PWD/.tsbuildinfo" ]]; then
+  if [ -f "$PWD/.tsbuildinfo" ]; then
     rm -f "$PWD/.tsbuildinfo" && _tsf_ok "removed .tsbuildinfo" && removed=1
   fi
 
   # Custom location from tsconfig
-  if [[ -f "$PWD/node_modules/.cache/tsconfig.tsbuildinfo" ]]; then
+  if [ -f "$PWD/node_modules/.cache/tsconfig.tsbuildinfo" ]; then
     rm -f "$PWD/node_modules/.cache/tsconfig.tsbuildinfo" \
       && _tsf_ok "removed node_modules/.cache/tsconfig.tsbuildinfo" && removed=1
   fi
 
   # Any *.tsbuildinfo in project root
   for f in "$PWD"/*.tsbuildinfo; do
-    [[ -f "$f" ]] && rm -f "$f" && _tsf_ok "removed $f" && removed=1
+    [ -f "$f" ] && rm -f "$f" && _tsf_ok "removed $f" && removed=1
   done
 
-  [[ "$removed" -eq 0 ]] && _tsf_warn "no cache files found"
+  [ "$removed" -eq 0 ] && _tsf_warn "no cache files found"
 }
 
 # --- npm v12 security helpers ---------------------------------------------
