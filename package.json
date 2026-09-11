@@ -1,0 +1,41 @@
+{
+  "name": "tsforge",
+  "version": "1.0.0",
+  "description": "⚡ TypeScript Performance & Diagnostics Toolkit — stop waiting on npx tsc --noEmit.",
+  "keywords": [
+    "typescript",
+    "tsc",
+    "tsgo",
+    "bash",
+    "cli",
+    "performance",
+    "diagnostics",
+    "developer-tools"
+  ],
+  "homepage": "https://saturumah.net",
+  "bugs": {
+    "url": "https://github.com/setuju/tsforge/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/setuju/tsforge.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Jack",
+    "url": "https://github.com/setuju"
+  },
+  "scripts": {
+    "lint": "shellcheck tsforge.sh",
+    "test": "bash -c 'source ./tsforge.sh && tsforge-help | head -1'",
+    "demo": "vhs demo.tape"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@typescript/native-preview": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true
+}

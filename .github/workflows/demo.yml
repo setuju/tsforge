@@ -1,0 +1,41 @@
+name: Regenerate Demo GIF
+
+on:
+  push:
+    paths:
+      - 'tsforge.sh'
+      - 'demo.tape'
+      - '.github/workflows/demo.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install VHS, ttyd, ffmpeg
+        run: |
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL https://repo.charm.sh/apt/gpg.key \
+            | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
+            | sudo tee /etc/apt/sources.list.d/charm.list
+          sudo apt update && sudo apt install -y vhs ffmpeg
+          curl -fsSL https://github.com/tsl0922/ttyd/releases/latest/download/ttyd.x86_64 \
+            -o /usr/local/bin/ttyd
+          chmod +x /usr/local/bin/ttyd
+
+      - name: Generate demo GIF
+        run: vhs demo.tape
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add demo.gif
+          git diff --staged --quiet || git commit -m "chore: regenerate demo.gif"
+          git push

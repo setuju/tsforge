@@ -1,0 +1,32 @@
+# TypeScript incremental build cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Generated trace files
+tsc-trace/
+tsc-trace-*/
+
+# Generated explain files
+tsc-explain.txt
+
+# Generated demo GIF
+demo.gif
+
+# Node
+node_modules/
+package-lock.json
+
+# Nix
+result
+result-*
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor noise
+.idea/
+.vscode/*
+!.vscode/settings.json
+*.swp
+*~

@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Source tsforge.sh and verify functions
+        shell: bash
+        run: |
+          source ./tsforge.sh
+          for fn in tsc-fast tsc-watch tsgo-fast tsc-files tsc-diag tsc-diagx \
+                    tsc-trace tsc-why tsc-config tsc-build tsc-build-force \
+                    tsc-where tsc-optimize tsc-clean npm-audit-scripts \
+                    tsforge-help; do
+            command -v "$fn" >/dev/null \
+              || { echo "❌ missing function: $fn"; exit 1; }
+            echo "✅ $fn defined"
+          done
+
+      - name: Run tsforge-help
+        shell: bash
+        run: |
+          source ./tsforge.sh
+          tsforge-help | head -5
+
+  docker:
+    name: Docker build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build test image
+        run: docker build -t tsforge:test .
+
+      - name: Run smoke tests inside container
+        run: |
+          docker run --rm tsforge:test bash -c '
+            source /usr/local/bin/tsforge.sh && \
+            tsforge-help | head -3 && \
+            echo "🎉 container smoke test passed"
+          '

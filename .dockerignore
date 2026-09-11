@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+*.tsbuildinfo
+tsc-trace/
+tsc-trace-*/
+tsc-explain.txt
+demo.gif
+docs/
+*.md
+!README.md

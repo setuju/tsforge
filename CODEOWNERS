@@ -1,0 +1,58 @@
+# ============================================================
+#  CODEOWNERS — tsforge
+#  Author  : Jack
+#  GitHub  : https://github.com/setuju
+#  Website : https://saturumah.net
+#
+#  Format: <pattern> <@owner> [<@owner2> ...]
+#  Docs  : https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# ============================================================
+
+# ---------------------------------------------------------------------------
+# Default — fallback for any file not matched by a more specific rule
+# ---------------------------------------------------------------------------
+*                       @setuju
+
+# ---------------------------------------------------------------------------
+# Main script & build tooling — only Jack can approve
+# ---------------------------------------------------------------------------
+/tsforge.sh             @setuju
+/Makefile               @setuju
+/Dockerfile             @setuju
+/.dockerignore          @setuju
+/shell.nix              @setuju
+/flake.nix              @setuju
+/package.json           @setuju
+/.shellcheckrc          @setuju
+/.editorconfig          @setuju
+
+# ---------------------------------------------------------------------------
+# Documentation — Jack + anyone with `docs` team access
+# ---------------------------------------------------------------------------
+/README.md              @setuju
+/LICENSE.md             @setuju
+/CHANGELOG.md           @setuju
+/CONTRIBUTING.md        @setuju
+/CODE_OF_CONDUCT.md     @setuju
+/SECURITY.md            @setuju
+/CODEOWNERS             @setuju
+/docs/                  @setuju
+
+# ---------------------------------------------------------------------------
+# CI/CD — workflow changes require extra review
+# ---------------------------------------------------------------------------
+/.github/workflows/     @setuju
+/.github/dependabot.yml @setuju
+/.github/FUNDING.yml    @setuju
+
+# ---------------------------------------------------------------------------
+# Demo assets — anyone may update the GIF, but approval is still required
+# ---------------------------------------------------------------------------
+/demo.tape              @setuju
+/demo.gif               @setuju
+
+# ---------------------------------------------------------------------------
+# Ignored — files that do NOT need review (examples, commented out)
+# ---------------------------------------------------------------------------
+# /node_modules/        # should never exist in the repo
+# /result               # Nix build output

@@ -1,0 +1,17 @@
+# ============================================================
+#  .shellcheckrc — tsforge
+#  ShellCheck configuration
+#  https://www.shellcheck.net/wiki/
+# ============================================================
+
+# Target the oldest Bash we claim to support
+shell=bash
+
+# Enable optional checks
+enable=avoid-nullary-conditions
+enable=quote-safe-variables
+enable=require-double-brackets
+
+# tsforge is sourced, not executed — disable "no shebang" warning
+# (we keep a shebang for direct-execution convenience anyway)
+disable=SC2148

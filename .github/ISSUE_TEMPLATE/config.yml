@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/setuju/tsforge#-commands
+    about: Read the README before opening an issue.
+  - name: 💬 Discussions
+    url: https://github.com/setuju/tsforge/discussions
+    about: Ask questions and share ideas here.
+  - name: 🔒 Security Issue
+    url: https://github.com/setuju/tsforge/security/advisories/new
+    about: Report a security vulnerability privately.

@@ -1,0 +1,31 @@
+# ============================================================
+#  dependabot.yml — tsforge
+#  Keeps GitHub Actions and npm dependencies up to date.
+# ============================================================
+
+version: 2
+updates:
+  # GitHub Actions used in .github/workflows/
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"
+
+  # npm dependencies (for tsgo, typescript)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      typescript:
+        patterns:
+          - "typescript"
+          - "@typescript/*"
