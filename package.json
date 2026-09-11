@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "typescript": "^5.7.0",
-    "@typescript/native-preview": "^1.0.0"
+    "@typescript/native-preview": "latest"
   },
   "engines": {
     "node": ">=20"
