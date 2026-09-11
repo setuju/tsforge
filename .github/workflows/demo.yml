@@ -17,25 +17,73 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install VHS, ttyd, ffmpeg
+      - name: Install VHS, ttyd, ffmpeg, and fonts
         run: |
+          # --- VHS + ffmpeg (Charm apt repo) ---
           sudo mkdir -p /etc/apt/keyrings
           curl -fsSL https://repo.charm.sh/apt/gpg.key \
             | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
           echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
             | sudo tee /etc/apt/sources.list.d/charm.list
-          sudo apt update && sudo apt install -y vhs ffmpeg
+          sudo apt update
+          sudo apt install -y vhs ffmpeg
+
+          # --- ttyd (from GitHub releases) ---
           curl -fsSL https://github.com/tsl0922/ttyd/releases/latest/download/ttyd.x86_64 \
             -o /usr/local/bin/ttyd
-          chmod +x /usr/local/bin/ttyd
+          sudo chmod +x /usr/local/bin/ttyd
+
+          # --- JetBrains Mono (required by demo.tape) ---
+          sudo apt install -y unzip wget
+          mkdir -p ~/.local/share/fonts
+          wget -q https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip \
+            -O /tmp/jbmono.zip
+          unzip -q /tmp/jbmono.zip -d /tmp/jbmono
+          cp /tmp/jbmono/fonts/ttf/*.ttf ~/.local/share/fonts/
+          fc-cache -f -v
+
+          # --- Verify ---
+          echo "── vhs ──"
+          vhs --version
+          echo "── ttyd ──"
+          ttyd --version
+          echo "── ffmpeg ──"
+          ffmpeg -version | head -1
+          echo "── JetBrains Mono ──"
+          fc-list | grep -i "JetBrains" | head -3
 
       - name: Generate demo GIF
-        run: vhs demo.tape
+        run: |
+          set -euo pipefail
+          vhs demo.tape
+          if [ ! -f demo.gif ]; then
+            echo "❌ vhs did not produce demo.gif"
+            echo "── vhs exit code: $? ──"
+            ls -la
+            exit 1
+          fi
+          echo "✅ demo.gif generated:"
+          ls -lh demo.gif
+          file demo.gif
 
       - name: Commit and push if changed
         run: |
-          git config user.name "github-actions[bot]"
+          set -euo pipefail
+
+          if [ ! -f demo.gif ]; then
+            echo "⚠️  demo.gif not found — nothing to commit"
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add demo.gif
-          git diff --staged --quiet || git commit -m "chore: regenerate demo.gif"
+
+          if git diff --staged --quiet; then
+            echo "✅ demo.gif unchanged — nothing to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: regenerate demo.gif [skip ci]"
           git push

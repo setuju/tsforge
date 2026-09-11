@@ -9,8 +9,6 @@ tsc-trace-*/
 # Generated explain files
 tsc-explain.txt
 
-# Generated demo GIF
-demo.gif
 
 # Node
 node_modules/
