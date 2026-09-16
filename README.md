@@ -125,9 +125,10 @@ make demo        # requires vhs, ttyd, ffmpeg
 ```
 
 ---
+
 ## 📁 Repository Structure
 
-```
+```structure
 tsforge/
 ├── tsforge.sh                          # Main script
 ├── package.json                        # npm metadata (for tooling & CI)
@@ -166,6 +167,8 @@ tsforge/
         ├── demo.yml                    # Auto-regenerate demo.gif
         └── release.yml                 # Tag → GitHub Release
 ```
+
+---
 
 ## 🚀 Quick Start
 
