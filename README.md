@@ -122,7 +122,7 @@ make demo        # requires vhs, ttyd, ffmpeg
 | 8 | — | Outro with project URL |
 
 > 💡 **Tip:** The GIF is generated from [`demo.tape`](demo.tape) using [VHS](https://github.com/charmbracelet/vhs). Every commit to `tsforge.sh` or `demo.tape` regenerates it automatically via the [`demo.yml`](.github/workflows/demo.yml) workflow.
-```
+
 
 ---
 
